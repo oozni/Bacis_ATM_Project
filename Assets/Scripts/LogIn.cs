@@ -19,14 +19,14 @@ public class LogIn : MonoBehaviour
             {
                 GameManager.Instance.userIndex = i;
                 SignIn.SetActive(false);
+
                 UIManager.Instance.OnUi();
                 return;
             }
-            else
-            {
-                Debug.Log("아이디 또는 비밀번호가 맞지 않습니다.");
-            }
-
+        }
+        if(allUser[GameManager.Instance.userIndex].signID == UIManager.Instance.logID.text && allUser[GameManager.Instance.userIndex].signPW == UIManager.Instance.logPW.text)
+        {
+            Debug.Log("아이디 또는 비밀번호가 맞지 않습니다.");
         }
     }
 

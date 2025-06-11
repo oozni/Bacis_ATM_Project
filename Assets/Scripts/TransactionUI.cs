@@ -134,10 +134,8 @@ public class TransactionUI : MonoBehaviour
                 // 문자열 변수에 저장된 숫자를 인트형으로 바꾼다.
                 if (inputText != null && int.TryParse(inputText, out int value))
                 {
-                    Debug.Log($"userData : {alluser[GameManager.Instance.userIndex]}, {alluser[GameManager.Instance.userIndex].signID}");
                     alluser[GameManager.Instance.userIndex].balance -= value;
                     alluser[i].balance += value;
-                    Debug.Log($"userData : {alluser[i]}, {alluser[i].signID}");
                     
                     UIManager.Instance.OnUi();
                     GameManager.Instance.JsonSave();
@@ -145,10 +143,10 @@ public class TransactionUI : MonoBehaviour
                     return;
                 }
             }
-            if (alluser[i].signID != UIManager.Instance.tranferID.text)
-            {
-                Debug.Log("없는 아이디 입니다.");
-            }
+        }
+        if (alluser[GameManager.Instance.userIndex].signID != UIManager.Instance.tranferID.text)
+        {
+            Debug.Log("없는 아이디 입니다.");
         }
     }
     public void InsufficientOpen()
