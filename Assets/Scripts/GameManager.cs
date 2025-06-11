@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public UserDataBase _userDataBase;
    
     [HideInInspector] public string path;
+    [HideInInspector] public int userIndex;
 
     private void Awake()
     {

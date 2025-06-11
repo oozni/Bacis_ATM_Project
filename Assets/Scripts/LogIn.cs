@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LogIn : MonoBehaviour
@@ -9,23 +10,23 @@ public class LogIn : MonoBehaviour
 
     public void SignInButton() // 로그인 버튼
     {
-        foreach (var uesrs in GameManager.Instance._userDataBase.users)
-        {
-            // json에 저장된 회원가입된 아이디, 패스워드랑 인터페이스에서 입력한 로그인 아이디, 패스워드가 같을 때
-            if (uesrs.signID == UIManager.Instance.logID.text && uesrs.signPW == UIManager.Instance.logPW.text)
-            {
-                uesrs.logID = uesrs.signID;
-                uesrs.logPW = uesrs.signPW;
+        var allUser = GameManager.Instance._userDataBase;
 
+        for (int i = 0; GameManager.Instance._userDataBase.users.Count > 0; i++)
+        {
+            if (allUser.users[i].signID == UIManager.Instance.logID.text && allUser.users[i].signPW == UIManager.Instance.logPW.text)
+            {
+                GameManager.Instance.userIndex = i;
                 SignIn.SetActive(false);
+                UIManager.Instance.OnUi();
                 return;
             }
             else
             {
                 Debug.Log("아이디 또는 비밀번호가 맞지 않습니다.");
             }
+
         }
-        
     }
 
     public void SignUpButton() // 회원가입 시작하는 버튼

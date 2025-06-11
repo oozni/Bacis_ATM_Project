@@ -36,7 +36,7 @@ public class TransactionUI : MonoBehaviour
     }
     public void AddMoney(GameObject clickedButton) // 통장에 입금되는 함수
     {
-        var data = GameManager.Instance._userDataBase.users[1];
+        var data = GameManager.Instance._userDataBase.users[GameManager.Instance.userIndex];
 
         TextMeshProUGUI uiText = clickedButton.GetComponent<TextMeshProUGUI>();
         string inputText = uiManager.dpInputText.text;
@@ -74,12 +74,8 @@ public class TransactionUI : MonoBehaviour
         }
     }
     public void SubtractMoney(GameObject clickedButton)
-    {// 로그인 하면 로그인한 데이터가 들어가야 돼 즉 로그인한 배열의 번호가 들어가야돼
-        foreach (var allUser in GameManager.Instance._userDataBase.users)
-        {
-
-        }
-        var data = GameManager.Instance._userDataBase.users[1];
+    {
+        var data = GameManager.Instance._userDataBase.users[GameManager.Instance.userIndex];
 
         TextMeshProUGUI uiText = clickedButton.GetComponent<TextMeshProUGUI>();
         string inputText = uiManager.wdInputText.text;

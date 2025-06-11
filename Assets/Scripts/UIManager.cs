@@ -66,16 +66,12 @@ public class UIManager : MonoBehaviour
         {
             isSignUp.SetActive(false);
         }
-        OnUi();
     }
     public void OnUi()
     {
-        foreach(var allUser in GameManager.Instance._userDataBase.users)
-        {
-            name.text = allUser.userName;
-            balance.text = allUser.balance.ToString("N0");
-            money.text = allUser.curCash.ToString("N0");
-        }
+        name.text = GameManager.Instance._userDataBase.users[GameManager.Instance.userIndex].userName;
+        balance.text = GameManager.Instance._userDataBase.users[GameManager.Instance.userIndex].balance.ToString("N0");
+        money.text = GameManager.Instance._userDataBase.users[GameManager.Instance.userIndex].curCash.ToString("N0");
 
         depositTen.text = moneyTenThousands.ToString("N0");
         depositFiftiy.text = moneyFiftyThousands.ToString("N0");
