@@ -12,6 +12,7 @@ TagManager:
   - Insufficient
   - LogIn
   - SignUp
+  - Transfer
   layers:
   - Default
   - TransparentFX

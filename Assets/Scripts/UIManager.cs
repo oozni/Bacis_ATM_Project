@@ -26,15 +26,21 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI balance;
     public TextMeshProUGUI money;
 
+    [Header("입금 정보")]
     [SerializeField] private TextMeshProUGUI depositTen;
     [SerializeField] private TextMeshProUGUI depositFiftiy;
     [SerializeField] private TextMeshProUGUI depositHundred;
     public TMP_InputField dpInputText;
 
+    [Header("출금 정보")]
     [SerializeField] private TextMeshProUGUI withdrawalTen;
     [SerializeField] private TextMeshProUGUI withdrawalFiftiy;
     [SerializeField] private TextMeshProUGUI withdrawalHundred;
     public TMP_InputField wdInputText;
+
+    [Header("이체 정보")]
+    public TMP_InputField tranferID;
+    public TMP_InputField tranferGold;
 
     [Header("로그인 정보")]
     public TMP_InputField logID;
@@ -56,7 +62,7 @@ public class UIManager : MonoBehaviour
     {
         foreach (GameObject obj in targetLayer)
         {
-            if (obj.CompareTag("DepositDetails") || obj.CompareTag("WithdrawalDetails") || obj.CompareTag("Insufficient"))
+            if (obj.CompareTag("DepositDetails") || obj.CompareTag("WithdrawalDetails") || obj.CompareTag("Insufficient") || obj.CompareTag("Transfer"))
             {
                 obj.SetActive(false);
             }

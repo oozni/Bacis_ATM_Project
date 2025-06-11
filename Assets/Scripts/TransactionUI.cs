@@ -8,29 +8,34 @@ using static System.Net.Mime.MediaTypeNames;
 
 public class TransactionUI : MonoBehaviour
 {
-    public UIManager uiManager;
-
     public void DepositButton() // 입금 버튼
     {
-        foreach (GameObject obj in uiManager.targetLayer)
+        foreach (GameObject obj in UIManager.Instance.targetLayer)
         {
             obj.SetActive(obj.CompareTag("DepositDetails"));
         }
     }
     public void WithdrawalButton() // 출금 버튼
     {
-        foreach (GameObject obj in uiManager.targetLayer)
+        foreach (GameObject obj in UIManager.Instance.targetLayer)
         {
             obj.SetActive(obj.CompareTag("WithdrawalDetails"));
         }
     }
+    public void BankTransferButton() // 이체 버튼
+    {
+        foreach (GameObject obj in UIManager.Instance.targetLayer)
+        {
+            obj.SetActive(obj.CompareTag("Transfer"));
+        }
+    }
     public void BackButton() // 뒤로가기 버튼
     {
-        foreach (GameObject obj in uiManager.targetLayer)
+        foreach (GameObject obj in UIManager.Instance.targetLayer)
         {
             bool isTransaction = obj.CompareTag("Withdrawal") || obj.CompareTag("Deposit");
 
-            uiManager.dpInputText.text = null;
+            UIManager.Instance.dpInputText.text = null;
             obj.SetActive(isTransaction);
         }
     }
@@ -39,7 +44,7 @@ public class TransactionUI : MonoBehaviour
         var data = GameManager.Instance._userDataBase.users[GameManager.Instance.userIndex];
 
         TextMeshProUGUI uiText = clickedButton.GetComponent<TextMeshProUGUI>();
-        string inputText = uiManager.dpInputText.text;
+        string inputText = UIManager.Instance.dpInputText.text;
 
         if (uiText != null && int.TryParse(uiText.text.Replace(",", ""), out int amount))
         {
@@ -48,7 +53,7 @@ public class TransactionUI : MonoBehaviour
                 data.balance += amount;
                 data.curCash -= amount;
 
-                uiManager.OnUi();
+                UIManager.Instance.OnUi();
                 GameManager.Instance.JsonSave();
             }
             else
@@ -63,7 +68,7 @@ public class TransactionUI : MonoBehaviour
                 data.balance += value;
                 data.curCash -= value;
 
-                uiManager.OnUi();
+                UIManager.Instance.OnUi();
                 GameManager.Instance.JsonSave();
 
             }
@@ -73,12 +78,12 @@ public class TransactionUI : MonoBehaviour
             }
         }
     }
-    public void SubtractMoney(GameObject clickedButton)
+    public void SubtractMoney(GameObject clickedButton) // 통장에서 출금되는 함수
     {
         var data = GameManager.Instance._userDataBase.users[GameManager.Instance.userIndex];
 
         TextMeshProUGUI uiText = clickedButton.GetComponent<TextMeshProUGUI>();
-        string inputText = uiManager.wdInputText.text;
+        string inputText = UIManager.Instance.wdInputText.text;
 
         if (uiText != null && int.TryParse(uiText.text.Replace(",", ""), out int amount))
         {
@@ -87,7 +92,7 @@ public class TransactionUI : MonoBehaviour
                 data.balance -= amount;
                 data.curCash += amount;
 
-                uiManager.OnUi();
+                UIManager.Instance.OnUi();
                 GameManager.Instance.JsonSave();
 
             }
@@ -103,7 +108,7 @@ public class TransactionUI : MonoBehaviour
                 data.balance -= value;
                 data.curCash += value;
 
-                uiManager.OnUi();
+                UIManager.Instance.OnUi();
                 GameManager.Instance.JsonSave();
 
             }
@@ -113,9 +118,42 @@ public class TransactionUI : MonoBehaviour
             }
         }
     }
+
+    public void TransferButton() // 계좌 이체 함수
+    {
+        var alluser = GameManager.Instance._userDataBase.users;
+
+        for (int i = 0; i < alluser.Count; i++)
+        {
+            // json에 저장되어 있는 아이디 중에 내가 입력한 아이디가 같다면
+            if (alluser[i].signID == UIManager.Instance.tranferID.text)
+            {
+                // 입력받은 값을 문자열 변수에 저장
+                string inputText = UIManager.Instance.tranferGold.text;
+
+                // 문자열 변수에 저장된 숫자를 인트형으로 바꾼다.
+                if (inputText != null && int.TryParse(inputText, out int value))
+                {
+                    Debug.Log($"userData : {alluser[GameManager.Instance.userIndex]}, {alluser[GameManager.Instance.userIndex].signID}");
+                    alluser[GameManager.Instance.userIndex].balance -= value;
+                    alluser[i].balance += value;
+                    Debug.Log($"userData : {alluser[i]}, {alluser[i].signID}");
+                    
+                    UIManager.Instance.OnUi();
+                    GameManager.Instance.JsonSave();
+                    
+                    return;
+                }
+            }
+            if (alluser[i].signID != UIManager.Instance.tranferID.text)
+            {
+                Debug.Log("없는 아이디 입니다.");
+            }
+        }
+    }
     public void InsufficientOpen()
     {
-        foreach (GameObject obj in uiManager.targetLayer)
+        foreach (GameObject obj in UIManager.Instance.targetLayer)
         {
             if (obj.CompareTag("Insufficient"))
             {
@@ -125,7 +163,7 @@ public class TransactionUI : MonoBehaviour
     }
     public void InsufficientClose()
     {
-        foreach (GameObject obj in uiManager.targetLayer)
+        foreach (GameObject obj in UIManager.Instance.targetLayer)
         {
             if (obj.CompareTag("Insufficient"))
             {

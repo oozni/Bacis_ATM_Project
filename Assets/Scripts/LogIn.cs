@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class LogIn : MonoBehaviour
 {
@@ -10,11 +11,11 @@ public class LogIn : MonoBehaviour
 
     public void SignInButton() // 로그인 버튼
     {
-        var allUser = GameManager.Instance._userDataBase;
+        var allUser = GameManager.Instance._userDataBase.users;
 
         for (int i = 0; GameManager.Instance._userDataBase.users.Count > 0; i++)
         {
-            if (allUser.users[i].signID == UIManager.Instance.logID.text && allUser.users[i].signPW == UIManager.Instance.logPW.text)
+            if (allUser[i].signID == UIManager.Instance.logID.text && allUser[i].signPW == UIManager.Instance.logPW.text)
             {
                 GameManager.Instance.userIndex = i;
                 SignIn.SetActive(false);
